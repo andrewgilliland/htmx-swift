@@ -13,6 +13,22 @@ func routes(_ app: Application) throws {
     }
     
     app.get("users") { req async -> String in
-        "Biff Tannen"
+        
+//        let limit = 5
+//        let url = URL(string: "https://jsonplaceholder.typicode.com/users?_limit=\(limit)")!
+//        let task = URLSession.shared.dataTask(with: url) {(data, response, error) in
+//            guard let data = data else { return }
+//            print(String(data: data, encoding: .utf8)!)
+//        }
+//        task.resume()
+        
+        let users = ["Biff", "Axel", "Marty"]
+        let userHTML = users.map { (user) -> String in
+            return "<div>\(user)</div>"
+        }.joined(separator: "")
+        
+        print(userHTML)
+        
+        return userHTML
     }
 }
