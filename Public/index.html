@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTMX + Swift</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.10"
+      integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5xLSi8nO7UC"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-black p-10">
+    <div class="p-10 border rounded-md">
+      <h2 class="font-semibold text-2xl text-white">HTMX Fetch Request</h2>
+      <button
+        hx-get="/users"
+        hx-target="#users"
+        hx-indicator="#loader"
+        hx-vals='{"limit": 5}''
+        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mt-10"
+      >
+        Fetch Users
+      </button>
+      <div id="loader" class="htmx-indicator text-white mt-10">...Loading</div>
+      <div class="text-white" id="users"></div>
+    </div>
+
+    <div class="mt-10">
+      <form class="border-2 rounded-md p-8"
+      hx-post="/convert-temperature"
+      hx-trigger="submit"
+      hx-target="#temperature-result"
+      hx-indicator="#temperature-loader"
+      >
+      <h2 class="font-semibold text-2xl text-white" >Temperature Converter</h2>
+      <div class="flex items-center mt-8">
+        <label
+        hx-target="#" class="font-semibold text-lg text-white" for="fahrenheit">Fahrenheit:</label>
+        <input
+        class="bg-black text-white border rounded-md ml-4 p-2"
+        type="number"
+        value="32"
+        id="fahrenheit"
+        name="fahrenheit"
+        />
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 ml-4">
+          Convert
+        </button>
+        <div id="temperature-result" class="font-semibold text-white text-lg ml-4"></div>
+        <div id="temperature-loader" class="htmx-indicator text-white ml-4">...Loading</div>
+      </div>
+      </form>
+    </div>
+
+    <div class="bg-grey-900 border-2 rounded-md mt-10 p-8">
+      <h2 class="font-semibold text-2xl text-white">Search Contacts</h2>
+      <input
+      class="bg-black text-white border rounded-md p-2 mt-4 min-w-full"
+      type="search"
+      name="search"
+      placeholder="Being Typing to Search Contacts..."
+      hx-post="/search/api"
+      hx-trigger="input changed delay:500ms, search"
+      hx-target="#search-results"
+      hx-indicator="#search-loader"
+      >
+      <table class="min-w-full divide-y divide-gray-200 mt-4 border-2 bg-gray-800">
+        <thead class="bg-gray-900 text-white">
+          <tr>
+            <th scope="col" class="p-1">Name</th>
+            <th scope="col" class="p-1">Email</th>
+          </tr>
+        </thead>
+        <tbody id="search-results" class="divide-y divide-gray-200">
+
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flex flex-col items-center border rounded-md mt-10 p-8">
+      <h2 class="font-semibold text-sm text-white">Chicago</h2>
+      <span class="text-white text-5xl" hx-get="/temperature" hx-trigger="every 5s">20 °C</span>
+    </div>
+
+    <form class="max-w-md mx-auto bg-gray-900 rounded-md border-2 mt-10 p-6">
+      <h2 class="font-semibold text-2xl text-white">Contact Us</h2>
+      <div class="mt-4" hx-target="this" hx-swap="outerHTML">
+        <label class="text-white" for="email">Email:</label>
+        <input
+        hx-post="/contact/email"
+        class="bg-gray-900 text-white border rounded-md p-2 w-full mt-2"
+        type="email"
+        name="email"
+        id="email"
+        required
+        />
+      </div>
+      <div class="mt-4">
+        <label class="text-white" for="name">Name:</label>
+        <input
+        class="bg-gray-900 text-white border rounded-md p-2 w-full mt-2"
+        type="text"
+        name="name"
+        id="name"
+        required
+        />
+      </div>
+      <div class="mt-4">
+        <label class="text-white" for="name">Password:</label>
+        <input
+        class="bg-gray-900 text-white border rounded-md p-2 w-full mt-2"
+        type="password"
+        name="password"
+        id="password"
+        required
+        />
+      </div>
+
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700 mt-8">Submit</button>
+    </form>
+  </body>
+</html>
+
