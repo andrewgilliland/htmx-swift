@@ -1,11 +1,23 @@
 import Vapor
 
 func routes(_ app: Application) throws {
-    let file = FileMiddleware(publicDirectory: app.directory.publicDirectory)
-    app.middleware.use(file)
+    app.middleware.use(FileMiddleware(publicDirectory: app.directory.publicDirectory))
     
     app.get { req async in
-        "It works!"
+        let publicDir = "Public"
+
+        do {
+            let data = try Data(contentsOf: URL(fileURLWithPath: app.directory.workingDirectory)
+                .appendingPathComponent(publicDir, isDirectory: true)
+                .appendingPathComponent("index.html", isDirectory: false))
+            
+            print(data)
+
+        } catch {
+            print(error)
+        }
+        
+        return "It works"
     }
 
     app.get("hello") { req async -> String in
@@ -22,12 +34,12 @@ func routes(_ app: Application) throws {
 //        }
 //        task.resume()
         
+      
+        
         let users = ["Biff", "Axel", "Marty"]
         let userHTML = users.map { (user) -> String in
-            return "<div>\(user)</div>"
+            "<li>\(user)</li>"
         }.joined(separator: "")
-        
-        print(userHTML)
         
         return userHTML
     }
